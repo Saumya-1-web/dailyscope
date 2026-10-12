@@ -1,0 +1,290 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Defines the character encoding -->
+  <meta charset="UTF-8">
+
+  <!-- Makes the website responsive on mobile, tablet and desktop -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Sets the browser theme color -->
+  <meta name="theme-color" content="#f5f6f8">
+
+  <!-- Provides a short description for search engines -->
+  <meta name="description" content="DailyScope — your daily briefing on politics, technology, sports and entertainment.">
+
+hi hu  <title>DailyScope — News that matters</title>
+
+  <!-- Connects to the image server early to improve loading speed -->
+  <link rel="preconnect" href="https://images.unsplash.com">
+
+  <!-- Links the external CSS file for website styling -->
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Loads JavaScript after the HTML has been parsed -->
+  <script src="script.js" defer></script>
+</head>
+
+<body>
+
+  <!-- Accessibility link that allows users to skip directly to the main content -->
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- Header contains the logo, breaking news, search and navigation -->
+  <header>
+
+    <!-- Top utility bar -->
+    <div class="utility-bar">
+      <div class="container utility-inner">
+
+        <!-- Website logo and home link -->
+        <a class="brand" href="#" aria-label="DailyScope home">
+          <span class="brand-mark">D</span>
+          <span>Daily<span class="brand-accent">Scope</span></span>
+        </a>
+
+        <!-- Breaking news ticker; JavaScript inserts headlines here -->
+        <div class="ticker" aria-label="Breaking news">
+          <span class="ticker-label">BREAKING</span>
+
+          <!-- Hides the overflowing part of the ticker -->
+          <div class="ticker-window">
+
+            <!-- JavaScript adds the scrolling headlines inside this element -->
+            <div class="ticker-track" id="tickerTrack"></div>
+          </div>
+        </div>
+
+        <!-- Contains the search form and theme toggle button -->
+        <div class="utility-actions">
+
+          <!-- Search form for finding news articles -->
+          <form class="search-form" id="searchForm" role="search">
+
+            <!-- Screen-reader-only label for accessibility -->
+            <label class="sr-only" for="searchInput">Search articles</label>
+
+            <!-- User enters a keyword in this search box -->
+            <input
+              id="searchInput"
+              type="search"
+              placeholder="Search news..."
+              autocomplete="off"
+            >
+
+            <!-- Submits the search form -->
+            <button type="submit" aria-label="Search">⌕</button>
+          </form>
+
+          <!-- Button used to switch between light and dark themes -->
+          <button
+            class="theme-toggle icon-button"
+            id="themeToggle"
+            type="button"
+            aria-label="Switch to dark mode"
+            title="Switch theme"
+          >☾</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main navigation bar for filtering articles by category -->
+    <nav class="main-nav" aria-label="Main navigation">
+      <div class="container nav-inner">
+
+        <!-- Each button represents a news category -->
+        <div class="nav-links" id="categoryNav">
+          <button class="nav-link active" type="button" data-category="Home">Home</button>
+          <button class="nav-link" type="button" data-category="Politics">Politics</button>
+          <button class="nav-link" type="button" data-category="Tech">Tech</button>
+          <button class="nav-link" type="button" data-category="Sports">Sports</button>
+          <button class="nav-link" type="button" data-category="Entertainment">Entertainment</button>
+        </div>
+
+        <!-- Indicates the website's daily briefing section -->
+        <span class="edition-label">
+          <span class="live-dot"></span>
+          YOUR DAILY BRIEFING
+        </span>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Main content of the website -->
+  <main id="main" class="container page-content">
+
+    <!-- Page title and current edition date -->
+    <section class="page-heading" aria-labelledby="pageTitle">
+      <div>
+        <p class="eyebrow" id="todayLabel">YOUR DAILY BRIEFING</p>
+        <h1 id="pageTitle">News that matters.</h1>
+        <p class="page-subtitle">The stories shaping today, all in one place.</p>
+      </div>
+
+      <!-- JavaScript inserts the current date here -->
+      <div class="edition-date" id="editionDate"></div>
+    </section>
+
+    <!-- Layout containing the main headline and trending stories -->
+    <section class="lead-layout" aria-label="Top stories">
+
+      <!-- Main featured story section -->
+      <div class="hero-section">
+        <div class="section-heading">
+          <h2>Top Story</h2>
+          <span class="section-line"></span>
+        </div>
+
+        <!-- JavaScript inserts the featured article here -->
+        <div id="heroArticle"></div>
+      </div>
+
+      <!-- Sidebar showing trending articles -->
+      <aside class="trending-panel" aria-labelledby="trendingTitle">
+        <div class="section-heading">
+          <h2 id="trendingTitle">Trending now</h2>
+          <span class="trending-indicator">LIVE</span>
+        </div>
+
+        <!-- JavaScript inserts trending article links here -->
+        <div id="trendingList" class="trending-list"></div>
+      </aside>
+    </section>
+
+    <!-- Section displaying the latest news articles -->
+    <section class="articles-section" aria-labelledby="articlesTitle">
+
+      <!-- Heading and result count -->
+      <div class="articles-heading">
+        <div>
+          <p class="eyebrow">THE LATEST</p>
+          <h2 id="articlesTitle">Latest stories</h2>
+        </div>
+
+        <!-- JavaScript displays the number of matching articles -->
+        <span class="results-count" id="resultsCount" aria-live="polite"></span>
+      </div>
+
+      <!-- Displays the active category or search filters -->
+      <div id="activeFilters" class="active-filters" hidden>
+        <span id="filterDescription"></span>
+
+        <!-- Clears the currently applied filters -->
+        <button type="button" id="clearFilters">Clear filters ×</button>
+      </div>
+
+      <!-- JavaScript dynamically creates article cards inside this grid -->
+      <div id="articleGrid" class="article-grid"></div>
+
+      <!-- Displayed when no articles match the search or category -->
+      <div id="emptyState" class="empty-state" hidden>
+        <div class="empty-icon">⌕</div>
+        <h3>No stories found</h3>
+        <p>Try another keyword or select a different category.</p>
+
+        <!-- Resets the search and displays all stories -->
+        <button class="primary-button" id="resetSearch" type="button">
+          Show all stories
+        </button>
+      </div>
+    </section>
+
+    <!-- Newsletter-style promotional section -->
+    <section class="newsletter-strip" aria-label="Newsletter information">
+      <div>
+        <p class="eyebrow">STAY INFORMED</p>
+        <h2>Good journalism. Zero noise.</h2>
+        <p>A clear look at the stories that matter to you.</p>
+      </div>
+
+      <!-- Link that takes the user back to the main content -->
+      <a href="#main" class="newsletter-link">
+        Explore today's stories <span>↗</span>
+      </a>
+    </section>
+  </main>
+
+  <!-- Footer containing branding and copyright information -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+
+      <!-- Footer logo -->
+      <a class="brand footer-brand" href="#">
+        <span class="brand-mark">D</span>
+        <span>Daily<span class="brand-accent">Scope</span></span>
+      </a>
+
+      <p>Independent in spirit. Curious by nature.</p>
+
+      <!-- JavaScript inserts the current year -->
+      <p>© <span id="currentYear"></span> DailyScope</p>
+    </div>
+
+    <!-- Clearly informs users that the website contains demo content -->
+    <div class="container demo-notice">
+      Demo publication · Headlines and article text are illustrative, not live reporting.
+    </div>
+  </footer>
+
+  <!-- Modal used to display the complete article when a story is opened -->
+  <div class="modal-overlay" id="articleModal" hidden>
+    <section
+      class="article-modal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="modalTitle"
+      aria-describedby="modalBody"
+      tabindex="-1"
+    >
+
+      <!-- Closes the article modal -->
+      <button
+        class="modal-close icon-button"
+        id="modalClose"
+        type="button"
+        aria-label="Close article"
+      >×</button>
+
+      <!-- Image and category of the selected article -->
+      <div class="modal-image-wrap">
+        <img id="modalImage" src="" alt="">
+        <span class="modal-category" id="modalCategory"></span>
+      </div>
+
+      <!-- Text content of the selected article -->
+      <article class="modal-article-content">
+        <p class="eyebrow">DAILYSCOPE · FULL STORY</p>
+
+        <!-- JavaScript inserts the article title -->
+        <h2 id="modalTitle"></h2>
+
+        <!-- Author information and publication date -->
+        <div class="modal-byline">
+          <span class="author-avatar" id="modalAuthorInitial">D</span>
+          <div>
+            <strong id="modalAuthor"></strong>
+            <p id="modalDate"></p>
+          </div>
+        </div>
+
+        <!-- JavaScript inserts the complete article text -->
+        <div class="modal-body" id="modalBody"></div>
+
+        <!-- Modal footer with a button to finish reading -->
+        <div class="modal-footer">
+          <span>End of article</span>
+          <button id="modalDone" type="button" class="primary-button">
+            Done reading
+          </button>
+        </div>
+      </article>
+    </section>
+  </div>
+
+  <!-- Small notification area for messages displayed by JavaScript -->
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+</body>
+</html>
+```
